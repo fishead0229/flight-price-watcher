@@ -21,8 +21,8 @@ function AppDashboard() {
   const navigate = useNavigate();
 
   async function handleSignOut() {
+    await navigate({ to: "/", replace: true });
     await supabase.auth.signOut();
-    navigate({ to: "/", replace: true });
   }
 
   return (
