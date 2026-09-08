@@ -1,27 +1,20 @@
-import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
+import { Link, useNavigate } from "react-router-dom";
+import { usePageMeta } from "@/hooks/use-page-meta";
+import { useAuth } from "@/lib/auth";
 import { supabase } from "@/integrations/supabase/client";
 import { Plane, LogOut, Radar } from "lucide-react";
 
-export const Route = createFileRoute("/_authenticated/app")({
-  head: () => ({
-    meta: [
-      { title: "Dashboard — Flight Price Notifier" },
-      {
-        name: "description",
-        content: "Your route-watching dashboard for Flight Price Notifier.",
-      },
-      { name: "robots", content: "noindex" },
-    ],
-  }),
-  component: AppDashboard,
-});
-
-function AppDashboard() {
-  const { user } = Route.useRouteContext();
+export function AppDashboard() {
+  usePageMeta({
+    title: "Dashboard — Flight Price Notifier",
+    description: "Your route-watching dashboard for Flight Price Notifier.",
+    robots: "noindex",
+  });
+  const { user } = useAuth();
   const navigate = useNavigate();
 
   async function handleSignOut() {
-    await navigate({ to: "/", replace: true });
+    await navigate("/", { replace: true });
     await supabase.auth.signOut();
   }
 
@@ -49,7 +42,7 @@ function AppDashboard() {
 
       <main className="mx-auto flex w-full max-w-5xl flex-1 flex-col px-4 py-12 sm:px-6">
         <h1 className="animate-fade-in-up text-2xl font-bold tracking-tight sm:text-3xl">
-          Hi {user.email}
+          Hi {user?.email}
         </h1>
 
         <div

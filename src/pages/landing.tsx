@@ -1,30 +1,7 @@
-import { createFileRoute, Link } from "@tanstack/react-router";
+import { Link } from "react-router-dom";
+import { usePageMeta } from "@/hooks/use-page-meta";
 import { Radar, MailCheck, CalendarX2, Plane, ArrowRight } from "lucide-react";
 import { Reveal } from "@/components/reveal";
-
-export const Route = createFileRoute("/")({
-  head: () => ({
-    meta: [
-      {
-        title: "Flight Price Notifier — 機票降價通知",
-      },
-      {
-        name: "description",
-        content:
-          "設定航線與目標價，機票降價就通知你。Set a route and a target price — we email you when the fare drops. Watching popular routes from Taipei.",
-      },
-      { property: "og:title", content: "Flight Price Notifier — 機票降價通知" },
-      {
-        property: "og:description",
-        content:
-          "Set a route and a target price — we email you when the fare drops.",
-      },
-      { property: "og:type", content: "website" },
-      { name: "twitter:card", content: "summary_large_image" },
-    ],
-  }),
-  component: LandingPage,
-});
 
 const FEATURES = [
   {
@@ -48,7 +25,15 @@ const FEATURES = [
   },
 ];
 
-function LandingPage() {
+export function LandingPage() {
+  usePageMeta({
+    title: "Flight Price Notifier — 機票降價通知",
+    description:
+      "設定航線與目標價，機票降價就通知你。Set a route and a target price — we email you when the fare drops. Watching popular routes from Taipei.",
+    ogDescription: "Set a route and a target price — we email you when the fare drops.",
+    twitterCard: "summary_large_image",
+  });
+
   return (
     <div className="relative min-h-screen overflow-x-clip bg-background">
       {/* ambient glow */}

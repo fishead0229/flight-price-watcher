@@ -1,32 +1,19 @@
-import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
+import { Link, useNavigate } from "react-router-dom";
+import { usePageMeta } from "@/hooks/use-page-meta";
 import { useState } from "react";
 import { supabase } from "@/integrations/supabase/client";
 import { Plane } from "lucide-react";
 import { AuthCard } from "@/components/auth-card";
 
-export const Route = createFileRoute("/sign-up")({
-  head: () => ({
-    meta: [
-      { title: "Sign Up — Flight Price Notifier" },
-      {
-        name: "description",
-        content:
-          "Create a Flight Price Notifier account and get email alerts when fares from Taipei drop to your target price.",
-      },
-      { property: "og:title", content: "Sign Up — Flight Price Notifier" },
-      {
-        property: "og:description",
-        content:
-          "Create a Flight Price Notifier account and get email alerts when fares from Taipei drop.",
-      },
-      { property: "og:type", content: "website" },
-      { name: "twitter:card", content: "summary" },
-    ],
-  }),
-  component: SignUpPage,
-});
-
-function SignUpPage() {
+export function SignUpPage() {
+  usePageMeta({
+    title: "Sign Up — Flight Price Notifier",
+    description:
+      "Create a Flight Price Notifier account and get email alerts when fares from Taipei drop to your target price.",
+    ogDescription:
+      "Create a Flight Price Notifier account and get email alerts when fares from Taipei drop.",
+    twitterCard: "summary",
+  });
   const navigate = useNavigate();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -48,7 +35,7 @@ function SignUpPage() {
       return;
     }
     // Email confirmation is auto-confirmed for v1 — session is active.
-    navigate({ to: "/app" });
+    navigate("/app");
   }
 
   return (

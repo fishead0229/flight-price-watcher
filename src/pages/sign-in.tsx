@@ -1,32 +1,19 @@
-import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
+import { Link, useNavigate } from "react-router-dom";
+import { usePageMeta } from "@/hooks/use-page-meta";
 import { useState } from "react";
 import { supabase } from "@/integrations/supabase/client";
 import { Plane } from "lucide-react";
 import { AuthCard } from "@/components/auth-card";
 
-export const Route = createFileRoute("/auth")({
-  head: () => ({
-    meta: [
-      { title: "Sign In — Flight Price Notifier" },
-      {
-        name: "description",
-        content:
-          "Sign in to Flight Price Notifier to watch flight routes from Taipei and get email alerts when fares drop to your target price.",
-      },
-      { property: "og:title", content: "Sign In — Flight Price Notifier" },
-      {
-        property: "og:description",
-        content:
-          "Sign in to Flight Price Notifier to watch flight routes from Taipei and get email alerts when fares drop.",
-      },
-      { property: "og:type", content: "website" },
-      { name: "twitter:card", content: "summary" },
-    ],
-  }),
-  component: SignInPage,
-});
-
-function SignInPage() {
+export function SignInPage() {
+  usePageMeta({
+    title: "Sign In — Flight Price Notifier",
+    description:
+      "Sign in to Flight Price Notifier to watch flight routes from Taipei and get email alerts when fares drop to your target price.",
+    ogDescription:
+      "Sign in to Flight Price Notifier to watch flight routes from Taipei and get email alerts when fares drop.",
+    twitterCard: "summary",
+  });
   const navigate = useNavigate();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -46,7 +33,7 @@ function SignInPage() {
       setError(error.message);
       return;
     }
-    navigate({ to: "/app" });
+    navigate("/app");
   }
 
   return (

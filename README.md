@@ -48,23 +48,38 @@ Tasteful subtle animations (fade-in on scroll is fine; don't overdo it)
 
 Out of scope for this v1: route-subscription form, target-price input, fare display, payment, custom database tables (do NOT create a subscriptions or profiles table — only use Supabase's default auth.users). Those come in later milestones. Stick to landing page + auth + placeholder dashboard.
 
-This project was built with [Lovable](https://lovable.dev).
+## Tech stack
 
-## Build with Lovable
+Plain [Vite](https://vite.dev) + React single-page app (no SSR), [React Router](https://reactrouter.com) for client-side routing, Tailwind CSS v4, and Supabase for auth. `vite build` emits a fully static site to `dist/`; `vercel.json` rewrites every path to `index.html` so deep links such as `/app` resolve client-side.
 
-Continue developing this project in the [Lovable editor](https://lovable.dev/projects/1b03c7d1-9c17-472f-95a9-91561b17d5cd).
+## Routes
 
-- **Ship faster**: describe what you want to build and Lovable handles the code.
-- **Stay in sync**: every change made in Lovable is committed straight to this repository.
-- **Full ownership**: this code is yours. Push to `main` on GitHub and your changes sync back into Lovable, ready for your next prompt.
+| Path | Page |
+| --- | --- |
+| `/` | Landing page |
+| `/auth` (alias `/sign-in`) | Sign in |
+| `/sign-up` | Sign up |
+| `/app` | Authenticated dashboard (redirects to `/auth` when signed out) |
 
 ## Development
 
-Prefer working locally? You need Node.js and npm — [install with nvm](https://github.com/nvm-sh/nvm#installing-and-updating).
-
 ```sh
-git clone <this-repository-url>
-cd <repository-name>
-npm i
-npm run dev
+npm install
+npm run dev        # local dev server
+npm run build      # static build → dist/
+npm run preview    # serve the production build locally
+npm run typecheck  # tsc --noEmit
 ```
+
+## Environment variables
+
+Set these (in `.env` locally, and in the Vercel project settings for deployments):
+
+```
+VITE_SUPABASE_URL=...
+VITE_SUPABASE_PUBLISHABLE_KEY=...
+```
+
+## Deploying to Vercel
+
+Import the repo in Vercel; the `vite` framework preset is picked up from `vercel.json` (build command `npm run build`, output directory `dist`). No serverless functions or edge runtime are needed.
