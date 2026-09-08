@@ -11,6 +11,8 @@ import { useEffect, type ReactNode } from "react";
 
 import appCss from "../styles.css?url";
 import { reportLovableError } from "../lib/lovable-error-reporting";
+import { supabase } from "@/integrations/supabase/client";
+import type { AuthChangeEvent } from "@supabase/supabase-js";
 
 function NotFoundComponent() {
   return (
@@ -133,7 +135,7 @@ function RootComponent() {
   useEffect(() => {
     const {
       data: { subscription },
-    } = supabase.auth.onAuthStateChange((event) => {
+    } = supabase.auth.onAuthStateChange((event: AuthChangeEvent) => {
       if (
         event !== "SIGNED_IN" &&
         event !== "SIGNED_OUT" &&
